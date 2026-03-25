@@ -1,0 +1,10 @@
+out
+.bsp
+.metals
+.scala-build
+.idea
+target
+.vscode
+.DS_Store
+scalar_named_tuples.pdf
+scalar_named_tuples.zip
