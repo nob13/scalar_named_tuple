@@ -1,6 +1,6 @@
 package sketch.queries
 
-import sketch.fielded.{Fielded, Optionalize, Rep, Table, User, UserPermission, Permission}
+import sketch.fielded.{Fielded, Optionalize, Permission, Rep, Structure, Table, User, UserPermission}
 
 trait QueryBuilder[T] {
 
@@ -18,12 +18,15 @@ trait QueryBuilder[T] {
   def filter(predicate: ColumnPath[?, T] => Rep[Boolean]): QueryBuilder[T] =
     GenericFilter(this, filters = Seq(predicate(path)))
 
-  /** Current path to start on */
+  /** Current structure */
+  def structure: Structure[T] = path.structure
+
+  /** Current Path. */
   def path: ColumnPath[?, T]
 
   /** Project elements */
-  def map[U](f: ColumnPath[T, T] => ColumnPath[T, U])(using fielded: Fielded[T]): QueryBuilder[U] =
-    project(f(ColumnPath.make[T]))
+  def map[U](f: ColumnPath[T, T] => ColumnPath[T, U]): QueryBuilder[U] =
+    project(f(ColumnPath.make[T](using structure)))
 
   /** Project with path. */
   def project[U](p: ColumnPath[T, U]): QueryBuilder[U] = Projection[T, U](this, p)

@@ -65,10 +65,11 @@ subtitle: Application / ColumnPath
   * Simplified: Converts to SQL (shows column names)
 * Basic Implementations
   * Root: We are starting somewhere
-  * Child: We have selected a field from a parent  
+  * Child: We have selected a field from a parent
 * Can be concatenated:
   * <InlineCode code="ColumnPath[A, B].append(ColumnPath[B, C]) => ColumnPath[A, C]" />
   * Concatenating means replaying field selects.
+* Implements simple SQL Comparison Operations via <InlineCode code="Rep[T]" />
 * See file <InlineCode code="ColumnPath.scala" />
 
 --- 
@@ -80,9 +81,6 @@ subtitle: Application / Filtering
 * Introducing <InlineCode code="QueryBuilder[T]" />
 * Can be instantiated from <InlineCode code="Table[T]" /> (SQL Table): 
   * Default is a <InlineCode code="TableSelect"/> which does <InlineCode code="SELECT [column1], [...] FROM [tableName]" />
-* Filtering is now easy:
-  * <InlineCode code="Rep[T]" /> which models comparison operations and translates them to SQL
-  * <InlineCode code="ColumnPath"/> derives from <InlineCode code="Rep[T]" />
 * Filter function:
   * <InlineCode code="def filter(predicate: ColumnPath[?, T] => Rep[Boolean]): QueryBuilder[T]" />
 * For Filtering we just collect all these filters of type <InlineCode code="Rep[Boolean]" /> and serialize them into a generic statement
@@ -97,9 +95,9 @@ subtitle: Application / Projection
 * Projection with <InlineCode code="map" />:
 ```scala {3-4|6-7|10|11-13|15-16}
 trait QueryBuilder[T] { 
-  [..]
-  def map[U](f: ColumnPath[T, T] => ColumnPath[T, U])(using fielded: Fielded[T]): QueryBuilder[U] = 
-    project(f(ColumnPath.make[T]))
+
+  def map[U](f: ColumnPath[T, T] => ColumnPath[T, U]): QueryBuilder[U] =
+    project(f(ColumnPath.make[T](using structure)))
   
   def project[U](p: ColumnPath[T, U]): QueryBuilder[U] = 
     Projection[T, U](this, p)    

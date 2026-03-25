@@ -22,7 +22,7 @@ println(result.name) // prints `Alice`
 ::right::
 
 * The cool thing: You can borrow them from case classes
-* Use them in <InlineCode code="Selectable" /> with <InlineCode code="NamedTuple.Map" />
+* Use them in <InlineCode code="Selectable" /> with <InlineCode code="NamedTuple.From" />
 ```scala {none|1|3|5|7-8|10|13} {at:4}
 case class Person(name: String, age: Int)
 
@@ -210,7 +210,7 @@ subtitle: Named Tuples / Optionals
   * Keep the optional type and just <InlineCode code="UnOption" /> in <InlineCode code="NamedTuple.From" />
   * Also keep the starting point, making it also possible to navigate from Optional values
 * Last one is promising as a full SQL Generator needs the starting point anyway (for decoding Results)
-* Result looks like a Lens (and was inspired by)!
+* This looks like a Lens (and was inspired by)!
 
 ---
 subtitle: Named Tuples / Navigator 3

@@ -28,13 +28,13 @@ sealed trait ColumnPath[R, T] extends Selectable with Rep[T] {
 
   /** Prepend a path. */
   def prepend[R2](path: ColumnPath[R2, R]): ColumnPath[R2, T]
-  
+
   /** Appends a path. */
-  def append[T2](path: ColumnPath[T, T2]): ColumnPath[R, T2] = path.prepend(this) 
+  def append[T2](path: ColumnPath[T, T2]): ColumnPath[R, T2] = path.prepend(this)
 }
 
 object ColumnPath {
-  def make[T](using fielded: Fielded[T]): ColumnPath[T, T] = ColumnPath.Root(fielded)
+  def make[T](using structure: Structure[T]): ColumnPath[T, T] = ColumnPath.Root(structure)
 
   case class Root[T](structure: Structure[T]) extends ColumnPath[T, T] {
     override def prepend[R2](path: ColumnPath[R2, T]): ColumnPath[R2, T] = {
