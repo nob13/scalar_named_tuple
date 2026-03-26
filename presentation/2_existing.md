@@ -19,7 +19,7 @@ subtitle: Existing Solutions / Column Names
   ```
 * Easy to use in SQL
     ```scala
-    s"SELECT ${User.columns.name} FROM ${User.tableName} WHERE ${User.columns.age} >= 18
+    s"SELECT ${User.columns.name} FROM ${User.tableName} WHERE ${User.columns.age} >= 18"
     ```
   * Cumbersome to maintain
   * No type safety
@@ -78,4 +78,4 @@ subtitle: Existing Solutions / Scala SQL
   ```
 * This is what we want
 * But no support for nested case classes
-* [Implemented by Jamie Thompson](https://github.com/com-lihaoyi/scalasql/pull/81) after last year's great talk.
+* [Implemented by bishabosha](https://github.com/com-lihaoyi/scalasql/pull/81) after last year's great talk.

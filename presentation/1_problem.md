@@ -47,14 +47,14 @@ subtitle: Problem / Goals
 
 ## What we want
 
-* We want to model SQL tables using Case Classes
-* Type safe field selection, column extraction
+* We want to model SQL tables using **Case Classes**
+* Type safe **field selection, column extraction**
 * Generating SQL Queries (Filtering, Projection, Joins)
 * Compile time check for bad columns and or types
 * Code completion
 * Share fields in common case classes (like Address)
   * Why? Customer has 100+ Columns in denormalized Tables with a lot of duplicates
-* Option-Support (SQL loves nullable fields)
+* **Option-Support** (SQL loves nullable fields)
 * Low boilerplate
 
 --- 
@@ -68,8 +68,8 @@ subtitle: Problem / Scope
 * Customisation
 * Collision handling in SQL Statements or Aliasing
 * Escaping
-* Warning: We will do type mapping at runtime, expect <InlineCode code="asInstanceOf" />
-  * It won't be completely sound all the time
+* Warning: type mapping at runtime
+  * Expect <InlineCode code="asInstanceOf" />
   * But we are talking to SQL Servers anyway, things can go wrong.
-  * Queries should be unit tested anyway
+  * Unit test your queries!
 * Real Implementation: usql

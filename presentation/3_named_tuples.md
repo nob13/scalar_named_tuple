@@ -10,7 +10,7 @@ subtitle: Named Tuples
 * Giving their fields names, instead <InlineCode code="_1, _2, _3" />
 * Introduced with Scala 3.7
   
-```scala {none|1-3|5|6|none} {at:1}
+```scala {none|1-4|1-5|1-6|none} {at:1}
 def helper(): (name: String, age: Int) = {
   (name = "Alice", age = 42)
 }
@@ -23,7 +23,7 @@ println(result.name) // prints `Alice`
 
 * The cool thing: You can borrow them from case classes
 * Use them in <InlineCode code="Selectable" /> with <InlineCode code="NamedTuple.From" />
-```scala {none|1|3|5|7-8|10|13} {at:4}
+```scala {none|1|1-3|1-5|1-8|1-10|1-13} {at:4}
 case class Person(name: String, age: Int)
 
 object Selector extends Selectable {
@@ -47,10 +47,10 @@ subtitle: Named Tuples / Navigation
 
 ## Navigating Case Classes
 
-* We can use this behaviour for three tasks
+* We can use this behavior for three tasks
   * Navigating through a case class
-  * Extracting Information (e.g. Column Name)
-  * Preserving Type Information (e.g. Column Type)
+  * Extracting Information (e.g. **Column Name**)
+  * Preserving Type Information (**Column Type**)
 
 ---
 subtitle: Named Tuples / Navigator 1
@@ -59,7 +59,7 @@ subtitle: Named Tuples / Navigator 1
 <div class="grid grid-cols-[3fr_2fr] gap-6">
 <div>
 
-```scala {1-2|4|5|7-8|11|12-14|16-17|19-22}
+```scala {1-2|1-4|1-5|1-8|1-11|1-14|1-17|1-22}
 class Navigator[T](path: List[String] = Nil) extends Selectable:
   def show: String = path.reverse.mkString(",")
 
@@ -142,7 +142,7 @@ subtitle: Named Tuples / Navigator 2
 <div class="grid grid-cols-[3fr_2fr] gap-6">
 <div>
 
-```scala {none|1,4-5|1,4-5,10-11|1,4-5,12|1,4-5,14-15|1,4-5,17|1,4-5,18|1,4-5,20-21}
+```scala {none|1-4|1-5|1-8|1-11|1-12|1-15|1-17|1-18|1-21}
 class Navigator2[T](path: List[String] = Nil) extends Selectable:
   def show: String = path.reverse.mkString(",")
 
@@ -208,9 +208,9 @@ subtitle: Named Tuples / Optionals
 * Three approaches
   * Split up the Navigator: A regular path, or an optional path
   * Keep the optional type and just <InlineCode code="UnOption" /> in <InlineCode code="NamedTuple.From" />
-  * Also keep the starting point, making it also possible to navigate from Optional values
+  * Also keep the **starting point**, making it also possible to navigate from Optional values
 * Last one is promising as a full SQL Generator needs the starting point anyway (for decoding Results)
-* This looks like a Lens (and was inspired by)!
+* This looks like a **Lens** (and was inspired by)!
 
 ---
 subtitle: Named Tuples / Navigator 3
@@ -219,7 +219,7 @@ subtitle: Named Tuples / Navigator 3
 <div class="grid grid-cols-[3fr_2fr] gap-6">
 <div>
 
-```scala {none|1|1,4-7|1,4-7,12-14|1,4-7,16-20|1,4-7,22-26}{at: 1}
+```scala {none|1-2|1-7|1-10|1-14|1-20|1-26}{at: 1}
 class Navigator3[R, T](path: List[String] = Nil) extends Selectable:
   def show: String = path.reverse.mkString(",")
 
@@ -290,12 +290,12 @@ subtitle: Named Tuples / Wrap Up
 
 ## Named Tuples: Wrap Up
 
+
 - <InlineCode code="NamedTuple.From" /> let us extract the field names of a case class and give it to our own structure
 - Match Types let us change the types at compile time
 - We can navigate through (optional) case classes, jumping over Optional fields
 - The starting and the resulting type is tracked by the Scala Compiler
-- This is a good starting point to:
-  - Extract Column Names 
-  - Mapping (Projecting), <InlineCode code="SELECT address_zip FROM [..]" /> with something like <InlineCode code="map(_.address.zip)" />
-  - Filtering <InlineCode code="SELECT * FROM [..] WHERE age >= 18" /> with something like <InlineCode code="filter(_.age >= 18)" />
-  - Joining: Combining Named Tuples with Tuples: <InlineCode code="user.join(permission)((a,b) == a.id === b.user_id)" />
+- We now know
+  - A way to get the **column name**
+  - The **data type**
+- This is a good starting point to create queries

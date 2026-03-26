@@ -61,14 +61,13 @@ subtitle: Application / ColumnPath
 
 * The Navigator is now called <InlineCode code="ColumnPath" /> as in usql
 * Same Approach, but always carrying the <InlineCode code="Structure" /> with it.
-* Can extract Column names
-  * Simplified: Converts to SQL (shows column names)
+* Can extract Column names (by analyzing Structure)
 * Basic Implementations
   * Root: We are starting somewhere
   * Child: We have selected a field from a parent
 * Can be concatenated:
   * <InlineCode code="ColumnPath[A, B].append(ColumnPath[B, C]) => ColumnPath[A, C]" />
-  * Concatenating means replaying field selects.
+  * Replaying field selects.
 * Implements simple SQL Comparison Operations via <InlineCode code="Rep[T]" />
 * See file <InlineCode code="ColumnPath.scala" />
 
@@ -93,9 +92,11 @@ subtitle: Application / Projection
 ## Projection
 
 * Projection with <InlineCode code="map" />:
-```scala {3-4|6-7|10|11-13|15-16}
-trait QueryBuilder[T] { 
+```scala {1-3|1-6|1-9|1-12|1-13|1-15|1-21}
+trait QueryBuilder[T] {
 
+  def path: ColumnPath[?, T]
+  
   def map[U](f: ColumnPath[T, T] => ColumnPath[T, U]): QueryBuilder[U] =
     project(f(ColumnPath.make[T](using structure)))
   
@@ -104,12 +105,14 @@ trait QueryBuilder[T] {
 }
 
 case class Projection[U, T](underlying: QueryBuilder[U], projection: ColumnPath[U, T]) extends QueryBuilder[T] {
-  val applied: ColumnPath[?, T] = underlying.path.append(projection)
+  override val path: ColumnPath[?, T] = underlying.path.append(projection)
 
-  override def sql: String = s"SELECT ${applied.toSql} FROM (${underlying.sql})"
+  override def sql: String = s"SELECT ${path.toSql} FROM (${underlying.sql})"
 
   // Use concatenation for chaining maps
-  override def project[P](p: ColumnPath[T, P]): QueryBuilder[P] = copy(projection = projection.append(p))
+  override def project[P](p: ColumnPath[T, P]): QueryBuilder[P] = copy(
+    projection = projection.append(p)
+  )
 }
 ```
 
@@ -122,14 +125,20 @@ subtitle: Application / Tuple Support
 
 ## Tuple Support
 
-* Missing piece: We have <InlineCode code="ColumnPath[R, A]" />, but how is <InlineCode code="R => (A, B, C)" /> working?
-* The map function 
+* Missing piece: 
+  * We have <InlineCode code="ColumnPath[R, A]" />, but how is <InlineCode code="R => (A, B, C)" /> working?
+* The map function <InlineCode code="x => (x.name, x.address.city, x.address.zip)" />
   * Generates: <InlineCode code="(ColumnPath[R, A], ColumnPath[R, B], ColumnPath[R, C])" />
   * But would need: <InlineCode code="ColumnPath[R, (A, B, C)]" />
 * Solution: 
   * Given <InlineCode code="Structure" /> resembling tuple fields (<InlineCode code="_1" />, <InlineCode code="_2" />, <InlineCode code="_3" />)
-  * Recursive Column Path for Tuples (<InlineCode code="QueryBuilder.EmptyTuplePath" />, <InlineCode code="QueryBuilder.RecTuplePath" />)
-  * Implicit conversion of <InlineCode code="(ColumnPath[R, A], ColumnPath[R, B], ColumnPath[R, C])" /> to <InlineCode code="ColumnPath[R, (A, B, C)]" />
+  * Recursive Column Path for Tuples (<InlineCode code="EmptyTuplePath" />, <InlineCode code="RecTuplePath" />)
+  * Implicit Conversion:
+  * ```scala
+    (ColumnPath[R, A], ColumnPath[R, B], ColumnPath[R, C]) => 
+    
+    ColumnPath[R, (A, B, C)]
+    ```
 
 ---
 subtitle: Application / Joins
@@ -138,7 +147,7 @@ subtitle: Application / Joins
 ## Joins
 
 * Joins are the combination of two query builders with a join <InlineCode code="ON" />-criteria
-```scala {2-4|7-8|10|12-16}
+```scala {1-5|1-8|1-10|1-17}
 trait QueryBuilder[T] {
   def leftJoin[R](right: QueryBuilder[R])(
     on: (ColumnPath[?, T], ColumnPath[?, R]) => Rep[Boolean]
@@ -167,16 +176,14 @@ subtitle: Application / Recap
 
 ## Recap
 
-- NamedTuples are cool!
+- *NamedTuples* are cool!
 - We have the QueryBuilder which can describe a path from <InlineCode code="R => T" />
-- We have extracted the Structure of Case Classes using <InlineCode code="Fielded" /> and <InlineCode code="Column" />
-- Combining them we can generate Queries, because we know all the Information
+- Together with the structure of a case class, we can 
+  - Figure out **column names**
+  - Figure out **the data type**
+- Combining that we can generate Queries
   * Filtering
   * Projecting
   * Joining
 - Syntax autocompletes (at least in VS Code)
 - Type safety is present
-- Missing pieces:
-  * Connection to SQL, Serializing, Deserializing, Escaping
-  * Aliasing, Collision Handling, Column Pruning
-  * Other SQL operations (insert, delete, update, etc.)

@@ -25,11 +25,11 @@ trait QueryBuilder[T] {
   def path: ColumnPath[?, T]
 
   /** Project elements */
-  def map[U](f: ColumnPath[T, T] => ColumnPath[T, U]): QueryBuilder[U] =
+  def map[B](f: ColumnPath[T, T] => ColumnPath[T, B]): QueryBuilder[B] =
     project(f(ColumnPath.make[T](using structure)))
 
   /** Project with path. */
-  def project[U](p: ColumnPath[T, U]): QueryBuilder[U] = Projection[T, U](this, p)
+  def project[B](p: ColumnPath[T, B]): QueryBuilder[B] = Projection[T, B](this, p)
 
   /** Inner Join */
   def join[U](
@@ -74,11 +74,9 @@ case class TableSelect[T](table: Table[T], filters: Seq[Rep[Boolean]] = Nil) ext
 }
 
 case class Projection[U, T](underlying: QueryBuilder[U], projection: ColumnPath[U, T]) extends QueryBuilder[T] {
-  val applied: ColumnPath[?, T] = underlying.path.append(projection)
+  override val path: ColumnPath[?, T] = underlying.path.append(projection)
 
-  override def sql: String = s"SELECT ${applied.toSql} FROM (${underlying.sql})"
-
-  override def path: ColumnPath[?, T] = projection
+  override def sql: String = s"SELECT ${path.toSql} FROM (${underlying.sql})"
 
   override def project[P](p: ColumnPath[T, P]): QueryBuilder[P] = copy(
     projection = projection.append(p)
