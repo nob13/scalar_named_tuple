@@ -49,8 +49,8 @@ subtitle: Named Tuples / Navigation
 
 * We can use this behavior for three tasks
   * Navigating through a case class
-  * Extracting Information (e.g. **Column Name**)
-  * Preserving Type Information (**Column Type**)
+  * Extracting Information (e.g. **Field Name**)
+  * Preserving Type Information (**Field or Column Type**)
 
 ---
 subtitle: Named Tuples / Navigator 1
