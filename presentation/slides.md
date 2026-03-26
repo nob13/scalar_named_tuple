@@ -22,6 +22,21 @@ Norbert Schultz, Reactive Core GmbH
 <img src="./logo_round_512.png" class="absolute bottom-4 left-4 w-12"/>
 
 ---
+subtitle: About Me
+---
+
+# About Me
+
+- I am Norbert Schultz :)
+- Doing Scala since 2012
+- Freelancing with my small company Reactive Core
+- Contract Software Development
+  - Robust Software in Scala / Rust
+  - Big Data Software (Spark + Cassandra)
+  - Software Platform Portation (often C++), Windows, Mac, Linux, Android, iOS
+- Recently: Released [sshforward.net](https://sshforward.net) - A public SSH Jump Host <img src="./sshforward.net.png" width="100"/>
+
+---
 subtitle: Agenda
 ---
 
