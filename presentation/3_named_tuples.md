@@ -296,6 +296,6 @@ subtitle: Named Tuples / Wrap Up
 - We can navigate through (optional) case classes, jumping over Optional fields
 - The starting and the resulting type is tracked by the Scala Compiler
 - We now know
-  - A way to get the **column name**
+  - The selected **field name**
   - The **data type**
 - This is a good starting point to create queries

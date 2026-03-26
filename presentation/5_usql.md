@@ -22,4 +22,4 @@ subtitle: usql / Overview
       .filter(_._2.name === "Write")
       .map(_._1._1.name)
   ```
-- Still Beta, queries are working and aliased, could be simpler, Postgres Optimizer is rescuing us.
+- Still Beta, queries are working and aliased, could be better pruned, Postgres Optimizer is rescuing us.

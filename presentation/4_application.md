@@ -7,9 +7,9 @@ subtitle: Application
 
 # Application
 
-* We can traverse Case Classes! Let's build queries
+* We can traverse Case Classes!
 * It needs some infrastructure to carry on:
-  - Extracting the structure from case classes to generate column names at runtime
+  - Extracting the structure from case classes to generate **column names** at runtime
   - Nested field graph
 * Core types
   * <InlineCode code="DataType" /> for SQL value types
