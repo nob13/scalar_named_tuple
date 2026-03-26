@@ -1,4 +1,7 @@
 extends: ScalaModule
 scalaVersion: 3.8.2
+mvnDeps:
+  - net.reactivecore::usql:0.5.0-beta1
+  - com.h2database:h2:2.4.240
 
 
