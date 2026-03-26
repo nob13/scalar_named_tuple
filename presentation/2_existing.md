@@ -17,9 +17,9 @@ subtitle: Existing Solutions / Column Names
     }    
   }
   ```
-* Easy to use in (Spark) SQL
+* Easy to use in SQL
     ```scala
-    sql"SELECT ${User.columns.name} FROM ${User.tableName} WHERE ${User.columns.age} >= 18
+    s"SELECT ${User.columns.name} FROM ${User.tableName} WHERE ${User.columns.age} >= 18
     ```
   * Cumbersome to maintain
   * No type safety

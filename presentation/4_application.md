@@ -33,7 +33,7 @@ flowchart LR
 
     street["ColumnField<br/>street -> Column(String)"]
     zip["ColumnField<br/>zip -> Column(String)"]
-    city["ColumnField<br/city -> Column(String)"]
+    city["ColumnField<br/>city -> Column(String)"]
 
     user --> id
     user --> email
