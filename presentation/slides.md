@@ -29,8 +29,7 @@ subtitle: About Me
 
 - I am Norbert Schultz :)
 - Doing Scala since 2012
-- Freelancing with my small company Reactive Core
-- Contract Software Development
+- Doing contract work with my small company Reactive Core
   - Robust Software in Scala / Rust
   - Big Data Software (Spark + Cassandra)
   - Software Platform Portation (often C++), Windows, Mac, Linux, Android, iOS
