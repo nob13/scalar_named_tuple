@@ -57,7 +57,7 @@ watchEffect(async () => {
 
   const html = await codeToHtml(sourceCode.value, {
     lang: props.lang,
-    theme: 'vitesse-light',
+    theme: 'vitesse-dark',
   })
 
   highlighted.value = html
@@ -83,7 +83,8 @@ watchEffect(async () => {
   display: inline;
   padding: 0.08em 0.35em;
   border-radius: 0.35em;
-  background: #f5f3ff;
+  background: #1f2937;
+  color: #e5e7eb;
   white-space: nowrap;
   font-size: 0.95em;
   font-family: Menlo, monospace;

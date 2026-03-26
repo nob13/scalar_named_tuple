@@ -4,7 +4,7 @@ background: PXL_20260206_151248158.jpg
 transition: slide-left
 mdc: true
 duration: 30min
-
+colorSchema: 'dark'
 fonts:
   sans: "Helvetica Neue"
   mono: Menlo
