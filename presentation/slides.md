@@ -31,8 +31,8 @@ subtitle: About Me
 - Doing Scala since 2012
 - Doing contract work with my small company Reactive Core
   - Robust Software in Scala / Rust
-  - Big Data Software (Spark + Cassandra)
-  - Software Platform Portation (often C++), Windows, Mac, Linux, Android, iOS
+  - Big Data (Spark + Cassandra)
+  - Platform Portation (often C++), Windows, Mac, Linux, Android, iOS
 - Recently: Released [sshforward.net](https://sshforward.net) - A public SSH Jump Host <img src="./sshforward.net.png" width="100"/>
 
 ---
@@ -44,7 +44,7 @@ subtitle: Agenda
 - What we want
 - Existing Solutions
 - Named Tuples to rescue us
-- Application: Generating Queries
+- Generating Queries
 - usql
 
 <img src="./PXL_20251024_174036666.MP.jpg" class="absolute bottom-20 right-10 w-96"/>

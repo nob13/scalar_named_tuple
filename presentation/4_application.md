@@ -10,7 +10,6 @@ subtitle: Application
 * We can traverse Case Classes!
 * It needs some infrastructure to carry on:
   - Extracting the structure from case classes to generate **column names** at runtime
-  - Nested field graph
 * Core types
   * <InlineCode code="DataType" /> for SQL value types
   * <InlineCode code="Structure" /> = <InlineCode code="Column" /> or <InlineCode code="Fielded" />
@@ -125,16 +124,15 @@ subtitle: Application / Tuple Support
 
 ## Tuple Support
 
-* Missing piece: 
-  * We have <InlineCode code="ColumnPath[R, A]" />, but how is <InlineCode code="R => (A, B, C)" /> working?
 * The map function <InlineCode code="x => (x.name, x.address.city, x.address.zip)" />
   * Generates: <InlineCode code="(ColumnPath[R, A], ColumnPath[R, B], ColumnPath[R, C])" />
-  * But would need: <InlineCode code="ColumnPath[R, (A, B, C)]" />
+  * But we need: <InlineCode code="ColumnPath[R, (A, B, C)]" />
 * Solution: 
   * Given <InlineCode code="Structure" /> resembling tuple fields (<InlineCode code="_1" />, <InlineCode code="_2" />, <InlineCode code="_3" />)
   * Recursive Column Path for Tuples (<InlineCode code="EmptyTuplePath" />, <InlineCode code="RecTuplePath" />)
   * Implicit Conversion:
-  * ```scala
+
+    ```scala
     (ColumnPath[R, A], ColumnPath[R, B], ColumnPath[R, C]) => 
     
     ColumnPath[R, (A, B, C)]
