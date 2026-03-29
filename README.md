@@ -7,3 +7,9 @@
 * Code in `src/sketch`
 * usql Example in `src/withusql`
 
+
+## usql
+
+This repository contains a stripped down sample implementation. The real implementation is to be found in 
+
+**[reactivecore/usql](https://github.com/reactivecore/usql)**
